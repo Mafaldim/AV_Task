@@ -89,7 +89,8 @@ def preprocess(df):
         
 
         # Drop duplicate rows based on 'abstract', 'label', and 'number_of_signatures'
-        #df = df.dropDuplicates(['abstract', 'label', 'numberOfSignatures'])
+        df = df.dropDuplicates(['abstract', 'label', 'numberOfSignatures'])
+        print('Length of final DF after deduplication', df.count())
         
         # Remove punctuation    
         df_cleaned = df.withColumn('cleaned_abstract', 
