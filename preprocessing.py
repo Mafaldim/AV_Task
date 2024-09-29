@@ -4,10 +4,9 @@ import sparknlp
 from sparknlp.base import *
 from sparknlp.annotator import *
 
+import pyspark.sql.functions as F
 from pyspark.sql.functions import explode, col, lower, regexp_replace, split, size, concat, lit, substring,md5
 from pyspark.ml import Pipeline
-import pyspark.sql.functions as F
-from pyspark.sql.types import StructType
 
 
 # Function to process petitions and count lemmatized words
@@ -90,7 +89,7 @@ def preprocess(df):
         
 
         # Drop duplicate rows based on 'abstract', 'label', and 'number_of_signatures'
-        df = df.dropDuplicates(['abstract', 'label', 'numberOfSignatures'])
+        #df = df.dropDuplicates(['abstract', 'label', 'numberOfSignatures'])
         
         # Remove punctuation    
         df_cleaned = df.withColumn('cleaned_abstract', 
@@ -143,7 +142,6 @@ if __name__ == "__main__":
     # Preprocess input dataframe
     df_final = preprocess(df)
     print('Length of final DF', df_final.count())
-
 
     # Save the DataFrame to CSV
     df_final.coalesce(1).write.csv('./output_data', header=True)
